@@ -1,0 +1,75 @@
+body.player-page {
+    font-family: sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 4rem;
+    background: #f9f9f9;
+    color: #333;
+    font-size: 2.2rem;
+    line-height: 1.8;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 3.6rem;
+    margin-bottom: 3.2rem;
+  }
+  
+  form label {
+    display: block;
+    margin-bottom: 2.2rem;
+    font-size: 2.1rem;
+  }
+  
+  form input[type="text"] {
+    width: 100%;
+    font-size: 2.1rem;
+    padding: 1.1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 1.8rem;
+    font-size: 2.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  @media (max-width: 400px) {
+    body.player-page {
+      padding: 3rem;
+      font-size: 2rem;
+    }
+  
+    h2 {
+      font-size: 3rem;
+      margin-bottom: 2.5rem;
+    }
+  
+    form label {
+      font-size: 1.9rem;
+    }
+  
+    form input[type="text"] {
+      font-size: 1.9rem;
+      padding: 1rem;
+    }
+  
+    button[type="submit"] {
+      font-size: 2rem;
+      padding: 1.5rem;
+    }
+  }
