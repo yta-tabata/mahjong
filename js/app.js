@@ -35,12 +35,14 @@ function getPlayers() {
       fromLS('mahjong_player2', 'プレイヤー2'),
       fromLS('mahjong_player3', 'プレイヤー3'),
     ];
-  }
+}
 
 window.onload = () => {
   players = getPlayers();
   const saved = loadAllScores();
   const restoreRounds = Math.max(saved.roundCount || 0, MIN_ROUNDS);
+
+  renderChipTable();
 
   for (let i = 1; i <= restoreRounds; i++) addRound(i);
 
@@ -84,9 +86,32 @@ function addRound(roundNumber) {
   saveAllScores(st);
 }
 
+function renderChipTable() {
+    const container = document.getElementById('chipTable');
+    if (!container) return;
+  
+    const headers = players.map(name => `<th>${name}</th>`).join('');
+    const inputs = players
+      .map((_, idx) =>
+        `<td><input type="number" name="chip_${idx}" value="0" /></td>`
+      )
+      .join('');
+  
+    const table = document.createElement('table');
+    table.className = 'chip-table';
+    table.innerHTML = `
+      <tr><th>プレイヤー</th>${headers}</tr>
+      <tr><td>増減</td>${inputs}</tr>
+    `;
+    container.innerHTML = '';
+    container.appendChild(table);
+}
+
 function calculate() {
   const rate     = parseFloat(document.getElementById('rate').value);
   const tableFee = parseFloat(document.getElementById('tableFee').value) || 0;
+  const chipRate = parseFloat(document.getElementById('chipRate').value);
+
   const playerCount = players.length;
 
   const totalScores = Array(playerCount).fill(0);
@@ -100,6 +125,10 @@ function calculate() {
     scores.forEach((score, idx) => totalScores[idx] += score);
   }
 
+  const chipCounts = Array.from({ length: playerCount }, (_, idx) =>
+    parseInt(document.querySelector(`[name="chip_${idx}"]`)?.value) || 0
+  );
+
   const resultEl = document.getElementById('result');
   let resultText = '';
 
@@ -110,9 +139,14 @@ function calculate() {
   resultText += `合計点数:\n`;
   players.forEach((name, idx) => { resultText += `${name}: ${totalScores[idx]}\n`; });
 
+  resultText += `\nチップ増減:\n`;
+  players.forEach((name, idx) => {
+    resultText += `${name}: ${chipCounts[idx]} 枚\n`;
+  });
+
   resultText += `\n金額換算:\n`;
   const perHeadFee = tableFee / playerCount;
-  const money = totalScores.map(score => Math.round(score * rate * POINT_UNIT - perHeadFee));
+  const money = totalScores.map((score, idx) => Math.round(score * rate * POINT_UNIT - perHeadFee + chipCounts[idx] * chipRate));
   players.forEach((name, idx) => { resultText += `${name}: ${money[idx]}円\n`; });
 
   resultEl.textContent = resultText;
