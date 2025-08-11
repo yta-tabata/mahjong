@@ -144,10 +144,14 @@ function calculate() {
     resultText += `${name}: ${chipCounts[idx]} 枚\n`;
   });
 
-  resultText += `\n金額換算:\n`;
+  resultText += `\n麻雀のみ:\n`;
+  const mahjongOnlyMoney = totalScores.map(score => Math.round(score * rate * POINT_UNIT));
+  players.forEach((name, idx) => { resultText += `${name}: ${mahjongOnlyMoney[idx]}円\n`; });
+
+  resultText += `\n最終結果:\n`;
   const perHeadFee = tableFee / playerCount;
-  const money = totalScores.map((score, idx) => Math.round(score * rate * POINT_UNIT - perHeadFee + chipCounts[idx] * chipRate));
-  players.forEach((name, idx) => { resultText += `${name}: ${money[idx]}円\n`; });
+  const resultMoney = totalScores.map((score, idx) => Math.round(score * rate * POINT_UNIT - perHeadFee + chipCounts[idx] * chipRate));
+  players.forEach((name, idx) => { resultText += `${name}: ${resultMoney[idx]}円\n`; });
 
   resultEl.textContent = resultText;
   document.getElementById('result-section').style.display = 'block';
