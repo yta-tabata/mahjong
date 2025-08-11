@@ -22,14 +22,24 @@
     </select>
   </div>
 
-  <br>
-
   <div>
     <label>卓代：</label>
     <input type="number" id="tableFee"></label>
   </div>
 
-  <br>
+  <div>
+    <label>チップ1枚：</label>
+    <select id="chipRate">
+      <option value="100">100</option>
+      <option value="200">200</option>
+      <option value="500">500</option>
+    </select>
+  </div>
+
+  <div id="chipSection">
+    <h4>チップ増減</h4>
+    <div id="chipTable"></div>
+  </div>
 
   <button onclick="calculate()">計算する</button>
 
